@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.32804.182
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standards.TryCatchWithRetry.Api", "Standards.TryCatchWithRetry.Api\Standards.TryCatchWithRetry.Api.csproj", "{667C788E-8FB9-4848-ABC2-D2784BFC838B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standards.TryCatchWithRetry.Api.Infrastructure.Build", "Standards.TryCatchWithRetry.Api.Infrastructure.Build\Standards.TryCatchWithRetry.Api.Infrastructure.Build.csproj", "{732B5E27-E0E3-4C06-881D-48D760CF7C60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standards.TryCatchWithRetry.Api.Infrastructure.Provision", "Standards.TryCatchWithRetry.Api.Infrastructure.Provision\Standards.TryCatchWithRetry.Api.Infrastructure.Provision.csproj", "{10D8DB98-5D0F-4FA1-A304-A13EFB3EE267}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standards.TryCatchWithRetry.Api.Tests.Unit", "Standards.TryCatchWithRetry.Api.Tests.Unit\Standards.TryCatchWithRetry.Api.Tests.Unit.csproj", "{40486A2A-C113-4063-84A9-F9CF17366DAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standards.TryCatchWithRetry.Api.Tests.Acceptance", "Standards.TryCatchWithRetry.Api.Tests.Acceptance\Standards.TryCatchWithRetry.Api.Tests.Acceptance.csproj", "{0AC792A4-0A98-4E20-B241-E131BC917B8C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{667C788E-8FB9-4848-ABC2-D2784BFC838B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{667C788E-8FB9-4848-ABC2-D2784BFC838B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{667C788E-8FB9-4848-ABC2-D2784BFC838B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{667C788E-8FB9-4848-ABC2-D2784BFC838B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{732B5E27-E0E3-4C06-881D-48D760CF7C60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{732B5E27-E0E3-4C06-881D-48D760CF7C60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{732B5E27-E0E3-4C06-881D-48D760CF7C60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{732B5E27-E0E3-4C06-881D-48D760CF7C60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10D8DB98-5D0F-4FA1-A304-A13EFB3EE267}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10D8DB98-5D0F-4FA1-A304-A13EFB3EE267}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10D8DB98-5D0F-4FA1-A304-A13EFB3EE267}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10D8DB98-5D0F-4FA1-A304-A13EFB3EE267}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40486A2A-C113-4063-84A9-F9CF17366DAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40486A2A-C113-4063-84A9-F9CF17366DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40486A2A-C113-4063-84A9-F9CF17366DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40486A2A-C113-4063-84A9-F9CF17366DAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AC792A4-0A98-4E20-B241-E131BC917B8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AC792A4-0A98-4E20-B241-E131BC917B8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AC792A4-0A98-4E20-B241-E131BC917B8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AC792A4-0A98-4E20-B241-E131BC917B8C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {563CF1DF-9E61-43DA-9DBC-3199E361DEC4}
+	EndGlobalSection
+EndGlobal
