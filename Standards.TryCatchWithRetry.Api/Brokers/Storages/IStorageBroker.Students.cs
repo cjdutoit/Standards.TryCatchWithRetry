@@ -9,5 +9,6 @@ namespace Standards.TryCatchWithRetry.Api.Brokers.Storages
     {
         ValueTask<Student> InsertStudentAsync(Student student);
         IQueryable<Student> SelectAllStudents();
+        ValueTask<Student> SelectStudentByIdAsync(Guid studentId);
     }
 }
