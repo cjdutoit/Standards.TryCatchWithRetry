@@ -1,4 +1,11 @@
+// ---------------------------------------------------------------
+// Copyright (c) Christo du Toit. All rights reserved.
+// Licensed under the MIT License.
+// See License.txt in the project root for license information.
+// ---------------------------------------------------------------
+
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
@@ -15,11 +22,44 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
         private delegate ValueTask<Student> ReturningStudentFunction();
         private delegate IQueryable<Student> ReturningStudentsFunction();
 
-        private async ValueTask<Student> TryCatch(ReturningStudentFunction returningStudentFunction)
+        private readonly List<Type> retryExceptionTypes =
+            new List<Type>() { typeof(DbUpdateException), typeof(DbUpdateConcurrencyException) };
+
+        private async ValueTask<Student> TryCatchWithRetry(ReturningStudentFunction returningStudentFunction)
         {
             try
             {
-                return await returningStudentFunction();
+                var attempts = 0;
+
+                while (true)
+                {
+                    try
+                    {
+                        attempts++;
+                        return await returningStudentFunction();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (retryExceptionTypes.Any(exception => exception == ex.GetType()))
+                        {
+                            this.loggingBroker
+                                .LogInformation(
+                                    $"Error found. Retry attempt {attempts}/{retryConfig.RetriesAllowed}. " +
+                                        $"Exception: {ex.Message}");
+
+                            if (attempts == retryConfig.RetriesAllowed)
+                            {
+                                throw;
+                            }
+
+                            Task.Delay(retryConfig.DelayBetweenRetries).Wait();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                }
             }
             catch (NullStudentException nullStudentException)
             {

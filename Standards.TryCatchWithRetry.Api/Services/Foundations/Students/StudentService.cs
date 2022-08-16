@@ -1,9 +1,16 @@
+// ---------------------------------------------------------------
+// Copyright (c) Christo du Toit. All rights reserved.
+// Licensed under the MIT License.
+// See License.txt in the project root for license information.
+// ---------------------------------------------------------------
+
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Standards.TryCatchWithRetry.Api.Brokers.DateTimes;
 using Standards.TryCatchWithRetry.Api.Brokers.Loggings;
 using Standards.TryCatchWithRetry.Api.Brokers.Storages;
+using Standards.TryCatchWithRetry.Api.Models.Retries;
 using Standards.TryCatchWithRetry.Api.Models.Students;
 
 namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
@@ -13,19 +20,22 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
         private readonly IStorageBroker storageBroker;
         private readonly IDateTimeBroker dateTimeBroker;
         private readonly ILoggingBroker loggingBroker;
+        private readonly IRetryConfig retryConfig;
 
         public StudentService(
             IStorageBroker storageBroker,
             IDateTimeBroker dateTimeBroker,
-            ILoggingBroker loggingBroker)
+            ILoggingBroker loggingBroker,
+            IRetryConfig retryConfig)
         {
             this.storageBroker = storageBroker;
             this.dateTimeBroker = dateTimeBroker;
             this.loggingBroker = loggingBroker;
+            this.retryConfig = retryConfig;
         }
 
         public ValueTask<Student> AddStudentAsync(Student student) =>
-            TryCatch(async () =>
+            TryCatchWithRetry(async () =>
             {
                 ValidateStudentOnAdd(student);
 
@@ -36,7 +46,7 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
             TryCatch(() => this.storageBroker.SelectAllStudents());
 
         public ValueTask<Student> RetrieveStudentByIdAsync(Guid studentId) =>
-            TryCatch(async () =>
+            TryCatchWithRetry(async () =>
             {
                 ValidateStudentId(studentId);
 
@@ -49,7 +59,7 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
             });
 
         public ValueTask<Student> ModifyStudentAsync(Student student) =>
-            TryCatch(async () =>
+            TryCatchWithRetry(async () =>
             {
                 ValidateStudentOnModify(student);
 
@@ -63,7 +73,7 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
             });
 
         public ValueTask<Student> RemoveStudentByIdAsync(Guid studentId) =>
-            TryCatch(async () =>
+            TryCatchWithRetry(async () =>
             {
                 ValidateStudentId(studentId);
 
