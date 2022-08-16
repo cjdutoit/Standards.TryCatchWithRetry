@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Standards.TryCatchWithRetry.Api.Models.Students;
 using Standards.TryCatchWithRetry.Api.Models.Students.Exceptions;
 using Xeptions;
@@ -46,6 +47,13 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
 
                 throw CreateAndLogDependencyValidationException(invalidStudentReferenceException);
             }
+            catch (DbUpdateException databaseUpdateException)
+            {
+                var failedStudentStorageException =
+                    new FailedStudentStorageException(databaseUpdateException);
+
+                throw CreateAndLogDependecyException(failedStudentStorageException);
+            }
         }
 
         private StudentValidationException CreateAndLogValidationException(Xeption exception)
@@ -74,6 +82,15 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
             this.loggingBroker.LogError(studentDependencyValidationException);
 
             return studentDependencyValidationException;
+        }
+
+        private StudentDependencyException CreateAndLogDependecyException(
+            Xeption exception)
+        {
+            var studentDependencyException = new StudentDependencyException(exception);
+            this.loggingBroker.LogError(studentDependencyException);
+
+            return studentDependencyException;
         }
     }
 }
