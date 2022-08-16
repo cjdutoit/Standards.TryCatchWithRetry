@@ -48,7 +48,7 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
                 return maybeStudent;
             });
 
-        public ValueTask<Student> ModifyStudentAsync(Student student) =>
-            throw new NotImplementedException();
+        public async ValueTask<Student> ModifyStudentAsync(Student student) =>
+            await this.storageBroker.UpdateStudentAsync(student);
     }
 }
