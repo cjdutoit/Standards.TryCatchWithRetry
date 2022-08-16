@@ -48,9 +48,10 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
 
             Validate(
                 (Rule: IsInvalid(student.Id), Parameter: nameof(Student.Id)),
-
-                // TODO: Add any other required validation rules
-
+                (Rule: IsInvalid(student.IdentityNumber), Parameter: nameof(Student.IdentityNumber)),
+                (Rule: IsInvalid(student.FirstName), Parameter: nameof(Student.FirstName)),
+                (Rule: IsInvalid(student.MiddleName), Parameter: nameof(Student.MiddleName)),
+                (Rule: IsInvalid(student.LastName), Parameter: nameof(Student.LastName)),
                 (Rule: IsInvalid(student.CreatedDate), Parameter: nameof(Student.CreatedDate)),
                 (Rule: IsInvalid(student.CreatedByUserId), Parameter: nameof(Student.CreatedByUserId)),
                 (Rule: IsInvalid(student.UpdatedDate), Parameter: nameof(Student.UpdatedDate)),
