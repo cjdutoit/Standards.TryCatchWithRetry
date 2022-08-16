@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using Moq;
 using Standards.TryCatchWithRetry.Api.Brokers.DateTimes;
 using Standards.TryCatchWithRetry.Api.Brokers.Loggings;
@@ -6,6 +7,7 @@ using Standards.TryCatchWithRetry.Api.Brokers.Storages;
 using Standards.TryCatchWithRetry.Api.Models.Students;
 using Standards.TryCatchWithRetry.Api.Services.Foundations.Students;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Students
 {
@@ -27,6 +29,9 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
                 dateTimeBroker: this.dateTimeBrokerMock.Object,
                 loggingBroker: this.loggingBrokerMock.Object);
         }
+
+        private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
+            actualException => actualException.SameExceptionAs(expectedException);
 
         private static DateTimeOffset GetRandomDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
