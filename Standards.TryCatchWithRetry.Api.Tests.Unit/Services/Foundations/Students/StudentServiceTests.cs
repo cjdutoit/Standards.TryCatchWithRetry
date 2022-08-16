@@ -1,8 +1,15 @@
+// ---------------------------------------------------------------
+// Copyright (c) Christo du Toit. All rights reserved.
+// Licensed under the MIT License.
+// See License.txt in the project root for license information.
+// ---------------------------------------------------------------
+
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Standards.TryCatchWithRetry.Api.Brokers.DateTimes;
 using Standards.TryCatchWithRetry.Api.Brokers.Loggings;
@@ -49,6 +56,18 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
             {
                 randomNumber,
                 randomNegativeNumber
+            };
+        }
+
+        public static TheoryData AllowedRetryExceptions()
+        {
+            var dbUpdateConcurrencyException = new DbUpdateConcurrencyException(GetRandomMessage());
+            var dbUpdateException = new DbUpdateException(GetRandomMessage());
+
+            return new TheoryData<Exception>
+            {
+                dbUpdateConcurrencyException,
+                dbUpdateException
             };
         }
 

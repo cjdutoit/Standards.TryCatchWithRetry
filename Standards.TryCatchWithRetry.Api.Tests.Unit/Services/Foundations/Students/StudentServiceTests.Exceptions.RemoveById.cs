@@ -1,3 +1,9 @@
+// ---------------------------------------------------------------
+// Copyright (c) Christo du Toit. All rights reserved.
+// Licensed under the MIT License.
+// See License.txt in the project root for license information.
+// ---------------------------------------------------------------
+
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -64,7 +70,7 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
         }
 
         [Fact]
-        public async Task ShouldThrowDependencyValidationOnRemoveIfDatabaseUpdateConcurrencyErrorOccursAndLogItAsync()
+        public async Task ShouldRetryThenThrowDependencyValidationOnRemoveIfDbUpdateConcurrencyErrorAndLogItAsync()
         {
             // given
             Guid someStudentId = Guid.NewGuid();
@@ -96,7 +102,11 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
 
             this.storageBrokerMock.Verify(broker =>
                 broker.SelectStudentByIdAsync(It.IsAny<Guid>()),
-                    Times.Once);
+                    Times.Exactly(3));
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogInformation(It.Is<string>(message => message.StartsWith("Error found. Retry attempt"))),
+                        Times.Exactly(3));
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(

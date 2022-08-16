@@ -1,3 +1,9 @@
+// ---------------------------------------------------------------
+// Copyright (c) Christo du Toit. All rights reserved.
+// Licensed under the MIT License.
+// See License.txt in the project root for license information.
+// ---------------------------------------------------------------
+
 using System;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
@@ -119,7 +125,7 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
         }
 
         [Fact]
-        public async Task ShouldThrowDependencyExceptionOnModifyIfDatabaseUpdateExceptionOccursAndLogItAsync()
+        public async Task ShouldRetryThenThrowDependencyExceptionOnModifyIfDatabaseUpdateExceptionOccursAndLogItAsync()
         {
             // given
             Student randomStudent = CreateRandomStudent();
@@ -149,7 +155,11 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTimeOffset(),
-                    Times.Once);
+                    Times.Exactly(3));
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogInformation(It.Is<string>(message => message.StartsWith("Error found. Retry attempt"))),
+                        Times.Exactly(3));
 
             this.storageBrokerMock.Verify(broker =>
                 broker.SelectStudentByIdAsync(randomStudent.Id),
@@ -170,7 +180,7 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
         }
 
         [Fact]
-        public async Task ShouldThrowDependencyValidationExceptionOnModifyIfDbUpdateConcurrencyErrorOccursAndLogAsync()
+        public async Task ShouldRetryThenThrowDependencyValidationExceptionOnModifyIfDbUpdateConcurrencyErrorOccursAndLogAsync()
         {
             // given
             Student randomStudent = CreateRandomStudent();
@@ -200,7 +210,11 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
 
             this.dateTimeBrokerMock.Verify(broker =>
                 broker.GetCurrentDateTimeOffset(),
-                    Times.Once);
+                    Times.Exactly(3));
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogInformation(It.Is<string>(message => message.StartsWith("Error found. Retry attempt"))),
+                        Times.Exactly(3));
 
             this.storageBrokerMock.Verify(broker =>
                 broker.SelectStudentByIdAsync(randomStudent.Id),

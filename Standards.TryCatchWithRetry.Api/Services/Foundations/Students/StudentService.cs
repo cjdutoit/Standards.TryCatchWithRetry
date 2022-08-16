@@ -25,7 +25,7 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
         }
 
         public ValueTask<Student> AddStudentAsync(Student student) =>
-            TryCatch(async () =>
+            TryCatchWithRetry(async () =>
             {
                 ValidateStudentOnAdd(student);
 
@@ -36,7 +36,7 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
             TryCatch(() => this.storageBroker.SelectAllStudents());
 
         public ValueTask<Student> RetrieveStudentByIdAsync(Guid studentId) =>
-            TryCatch(async () =>
+            TryCatchWithRetry(async () =>
             {
                 ValidateStudentId(studentId);
 
@@ -49,7 +49,7 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
             });
 
         public ValueTask<Student> ModifyStudentAsync(Student student) =>
-            TryCatch(async () =>
+            TryCatchWithRetry(async () =>
             {
                 ValidateStudentOnModify(student);
 
@@ -63,7 +63,7 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
             });
 
         public ValueTask<Student> RemoveStudentByIdAsync(Guid studentId) =>
-            TryCatch(async () =>
+            TryCatchWithRetry(async () =>
             {
                 ValidateStudentId(studentId);
 
