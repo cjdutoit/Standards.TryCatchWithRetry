@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Standards.TryCatchWithRetry.Api.Brokers.DateTimes;
 using Standards.TryCatchWithRetry.Api.Brokers.Loggings;
@@ -29,5 +30,8 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
 
                 return await this.storageBroker.InsertStudentAsync(student);
             });
+
+        public IQueryable<Student> RetrieveAllStudents() =>
+            throw new System.NotImplementedException();
     }
 }
