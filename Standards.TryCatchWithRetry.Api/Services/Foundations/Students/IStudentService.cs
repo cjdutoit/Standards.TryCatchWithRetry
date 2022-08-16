@@ -10,5 +10,6 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
         ValueTask<Student> AddStudentAsync(Student student);
         IQueryable<Student> RetrieveAllStudents();
         ValueTask<Student> RetrieveStudentByIdAsync(Guid studentId);
+        ValueTask<Student> ModifyStudentAsync(Student student);
     }
 }

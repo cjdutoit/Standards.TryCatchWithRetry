@@ -64,6 +64,17 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
         private static DateTimeOffset GetRandomDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
 
+        private static Student CreateRandomModifyStudent(DateTimeOffset dateTimeOffset)
+        {
+            int randomDaysInPast = GetRandomNegativeNumber();
+            Student randomStudent = CreateRandomStudent(dateTimeOffset);
+
+            randomStudent.CreatedDate =
+                randomStudent.CreatedDate.AddDays(randomDaysInPast);
+
+            return randomStudent;
+        }
+
         private static IQueryable<Student> CreateRandomStudents()
         {
             return CreateStudentFiller(dateTimeOffset: GetRandomDateTimeOffset())
