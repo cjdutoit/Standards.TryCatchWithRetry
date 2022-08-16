@@ -28,6 +28,10 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
                     .Returns(randomDateTimeOffset);
 
             this.storageBrokerMock.Setup(broker =>
+                broker.SelectStudentByIdAsync(studentId))
+                    .ReturnsAsync(storageStudent);
+
+            this.storageBrokerMock.Setup(broker =>
                 broker.UpdateStudentAsync(inputStudent))
                     .ReturnsAsync(updatedStudent);
 
@@ -43,12 +47,16 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
                     Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
+                broker.SelectStudentByIdAsync(inputStudent.Id),
+                    Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
                 broker.UpdateStudentAsync(inputStudent),
                     Times.Once);
 
-            this.dateTimeBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
