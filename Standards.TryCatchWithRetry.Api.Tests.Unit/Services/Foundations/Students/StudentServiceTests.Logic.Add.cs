@@ -22,6 +22,10 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
             Student storageStudent = inputStudent;
             Student expectedStudent = storageStudent.DeepClone();
 
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Returns(randomDateTimeOffset);
+
             this.storageBrokerMock.Setup(broker =>
                 broker.InsertStudentAsync(inputStudent))
                     .ReturnsAsync(storageStudent);
@@ -33,13 +37,17 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
             // then
             actualStudent.Should().BeEquivalentTo(expectedStudent);
 
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once());
+
             this.storageBrokerMock.Verify(broker =>
                 broker.InsertStudentAsync(inputStudent),
                     Times.Once);
 
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
-            this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
