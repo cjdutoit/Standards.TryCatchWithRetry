@@ -11,5 +11,6 @@ namespace Standards.TryCatchWithRetry.Api.Brokers.Storages
         IQueryable<Student> SelectAllStudents();
         ValueTask<Student> SelectStudentByIdAsync(Guid studentId);
         ValueTask<Student> UpdateStudentAsync(Student student);
+        ValueTask<Student> DeleteStudentAsync(Student student);
     }
 }
