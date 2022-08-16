@@ -25,9 +25,6 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
         private readonly List<Type> retryExceptionTypes =
             new List<Type>() { typeof(DbUpdateException), typeof(DbUpdateConcurrencyException) };
 
-        private readonly int retries = 3;
-        private readonly TimeSpan delayBetweenRetries = TimeSpan.FromSeconds(3);
-
         private async ValueTask<Student> TryCatchWithRetry(ReturningStudentFunction returningStudentFunction)
         {
             try
@@ -47,14 +44,15 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
                         {
                             this.loggingBroker
                                 .LogInformation(
-                                    $"Error found. Retry attempt {attempts}/{retries}. Exception: {ex.Message}");
+                                    $"Error found. Retry attempt {attempts}/{retryConfig.RetriesAllowed}. " +
+                                        $"Exception: {ex.Message}");
 
-                            if (attempts == retries)
+                            if (attempts == retryConfig.RetriesAllowed)
                             {
                                 throw;
                             }
 
-                            Task.Delay(delayBetweenRetries).Wait();
+                            Task.Delay(retryConfig.DelayBetweenRetries).Wait();
                         }
                         else
                         {

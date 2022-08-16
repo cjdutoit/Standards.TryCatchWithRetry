@@ -14,6 +14,7 @@ using Moq;
 using Standards.TryCatchWithRetry.Api.Brokers.DateTimes;
 using Standards.TryCatchWithRetry.Api.Brokers.Loggings;
 using Standards.TryCatchWithRetry.Api.Brokers.Storages;
+using Standards.TryCatchWithRetry.Api.Models.Retries;
 using Standards.TryCatchWithRetry.Api.Models.Students;
 using Standards.TryCatchWithRetry.Api.Services.Foundations.Students;
 using Tynamix.ObjectFiller;
@@ -27,6 +28,13 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
         private readonly Mock<IStorageBroker> storageBrokerMock;
         private readonly Mock<IDateTimeBroker> dateTimeBrokerMock;
         private readonly Mock<ILoggingBroker> loggingBrokerMock;
+
+        private readonly IRetryConfig retryConfig = new RetryConfig
+        {
+            RetriesAllowed = 3,
+            DelayBetweenRetries = TimeSpan.FromMilliseconds(3)
+        };
+
         private readonly IStudentService studentService;
 
         public StudentServiceTests()
@@ -38,7 +46,8 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
             this.studentService = new StudentService(
                 storageBroker: this.storageBrokerMock.Object,
                 dateTimeBroker: this.dateTimeBrokerMock.Object,
-                loggingBroker: this.loggingBrokerMock.Object);
+                loggingBroker: this.loggingBrokerMock.Object,
+                retryConfig: this.retryConfig);
         }
 
         private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException) =>
