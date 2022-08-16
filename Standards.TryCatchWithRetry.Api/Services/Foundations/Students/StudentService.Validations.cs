@@ -1,3 +1,9 @@
+// ---------------------------------------------------------------
+// Copyright (c) Christo du Toit. All rights reserved.
+// Licensed under the MIT License.
+// See License.txt in the project root for license information.
+// ---------------------------------------------------------------
+
 using System;
 using Standards.TryCatchWithRetry.Api.Models.Students;
 using Standards.TryCatchWithRetry.Api.Models.Students.Exceptions;
@@ -12,9 +18,10 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
 
             Validate(
                 (Rule: IsInvalid(student.Id), Parameter: nameof(Student.Id)),
-
-                // TODO: Add any other required validation rules
-
+                (Rule: IsInvalid(student.IdentityNumber), Parameter: nameof(Student.IdentityNumber)),
+                (Rule: IsInvalid(student.FirstName), Parameter: nameof(Student.FirstName)),
+                (Rule: IsInvalid(student.MiddleName), Parameter: nameof(Student.MiddleName)),
+                (Rule: IsInvalid(student.LastName), Parameter: nameof(Student.LastName)),
                 (Rule: IsInvalid(student.CreatedDate), Parameter: nameof(Student.CreatedDate)),
                 (Rule: IsInvalid(student.CreatedByUserId), Parameter: nameof(Student.CreatedByUserId)),
                 (Rule: IsInvalid(student.UpdatedDate), Parameter: nameof(Student.UpdatedDate)),
@@ -103,6 +110,12 @@ namespace Standards.TryCatchWithRetry.Api.Services.Foundations.Students
         {
             Condition = id == Guid.Empty,
             Message = "Id is required"
+        };
+
+        private static dynamic IsInvalid(string text) => new
+        {
+            Condition = String.IsNullOrWhiteSpace(text),
+            Message = "Text is required"
         };
 
         private static dynamic IsInvalid(DateTimeOffset date) => new
