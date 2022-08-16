@@ -1,5 +1,7 @@
 using System;
 using System.Linq.Expressions;
+using System.Runtime.Serialization;
+using Microsoft.Data.SqlClient;
 using Moq;
 using Standards.TryCatchWithRetry.Api.Brokers.DateTimes;
 using Standards.TryCatchWithRetry.Api.Brokers.Loggings;
@@ -46,6 +48,9 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
             };
         }
 
+        private static SqlException GetSqlException() =>
+            (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
+
         private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
@@ -54,6 +59,9 @@ namespace Standards.TryCatchWithRetry.Api.Tests.Unit.Services.Foundations.Studen
 
         private static DateTimeOffset GetRandomDateTimeOffset() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
+        private static Student CreateRandomStudent() =>
+            CreateStudentFiller(dateTimeOffset: GetRandomDateTimeOffset()).Create();
 
         private static Student CreateRandomStudent(DateTimeOffset dateTimeOffset) =>
             CreateStudentFiller(dateTimeOffset).Create();
